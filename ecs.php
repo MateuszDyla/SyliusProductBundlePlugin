@@ -19,15 +19,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(FinalClassInEntitiesOrRepositoriesFixer::class);
 
-
-
     $parameters = $containerConfigurator->parameters();
-    $parameters->set(Option::ONLY, [
-        FinalClassInEntitiesOrRepositoriesFixer::class => [
-            __DIR__ . '/src/Entity',
-            __DIR__. '/src/Repository',
-            ],
-    ]);
+
     $parameters->set(Option::PATHS, [
         __DIR__ . '/src',
         __DIR__ . '/tests',
