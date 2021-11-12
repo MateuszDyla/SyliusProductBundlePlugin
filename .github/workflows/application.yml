@@ -53,6 +53,7 @@ jobs:
       -
         name: Run ECS
         run: vendor/bin/ecs
+        if: always() && steps.end-of-setup.outcome == 'success'
 
   notify-about-build-failure:
     runs-on: ubuntu-latest
