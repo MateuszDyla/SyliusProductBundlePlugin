@@ -10,13 +10,12 @@ use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
-use const T_FINAL;
 
 final class FinalClassInEntitiesOrRepositoriesFixer implements FixerInterface
 {
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isTokenKindFound(T_FINAL);
+        return $tokens->isTokenKindFound(\T_FINAL);
     }
 
     public function isRisky(): bool
@@ -27,12 +26,14 @@ final class FinalClassInEntitiesOrRepositoriesFixer implements FixerInterface
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         for ($index = $tokens->count() - 1; 0 <= $index; --$index) {
-            if (!$tokens[$index]->isGivenKind(T_FINAL)) {
+            if (!$tokens[$index]->isGivenKind(\T_FINAL)) {
                 continue;
             }
             $tokens->clearAt($index);
-
             if ($tokens[$index - 1]->isGivenKind(\T_WHITESPACE)) {
+                $tokens->clearAt($index + 1);
+            }
+            if ($tokens[$index - 2]->isGivenKind(\T_COMMENT)) {
                 $tokens->clearAt($index - 1);
             }
         }
@@ -45,14 +46,10 @@ final class FinalClassInEntitiesOrRepositoriesFixer implements FixerInterface
             [
                 new CodeSample(
                     '<?php
-
                            declare(strict_types=1);
-
                            namespace App\Entity;
-
                            final class Product
                            {
-
                            }
                            '
                 ),
@@ -72,6 +69,10 @@ final class FinalClassInEntitiesOrRepositoriesFixer implements FixerInterface
 
     public function supports(SplFileInfo $file): bool
     {
-        return true;
+        if (str_contains($file->getPath(), 'src/Entity') || str_contains($file->getPath(), 'src/Repository')) {
+            return true;
+        }
+
+        return false;
     }
 }
