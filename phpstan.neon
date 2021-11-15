@@ -10,6 +10,7 @@ parameters:
         # Test dependencies
         - 'tests/Application/app/**.php'
         - 'tests/Application/src/**.php'
+        - 'src/Fixer/**.php'
 
         # ECS Fixer dependency
         - 'src/Fixer'

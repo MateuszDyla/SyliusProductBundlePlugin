@@ -13,8 +13,9 @@ namespace BitBag\SyliusProductBundlePlugin\Entity;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Resource\Model\TimestampableTrait;
 
-class ProductBundleItem implements ProductBundleItemInterface
+final class ProductBundleItem implements ProductBundleItemInterface
 {
+    
     use TimestampableTrait;
 
     /** @var int */
