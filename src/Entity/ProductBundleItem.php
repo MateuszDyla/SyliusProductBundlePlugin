@@ -15,6 +15,7 @@ use Sylius\Component\Resource\Model\TimestampableTrait;
 
 final class ProductBundleItem implements ProductBundleItemInterface
 {
+    
     use TimestampableTrait;
 
     /** @var int */
